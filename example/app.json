@@ -20,10 +20,25 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "expo.modules.zendeskmessagingexpo.example"
+      "package": "expo.modules.zendeskmessagingexpo.example",
+      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": [
+              {
+                "url": "https://zendesk.jfrog.io/artifactory/repo"
+              }
+            ]
+          }
+        }
+      ]
+    ]
   }
 }

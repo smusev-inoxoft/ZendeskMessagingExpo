@@ -28,7 +28,9 @@
   "author": "Dwayne <dwayne.dsouza@gmail.com> (https://github.com/deelo55)",
   "license": "MIT",
   "homepage": "https://github.com/deelo55/zendesk-messaging-expo#readme",
-  "dependencies": {},
+  "dependencies": {
+    "expo-build-properties": "~0.12.5"
+  },
   "devDependencies": {
     "@types/react": "^18.0.25",
     "expo-module-scripts": "^3.5.2",

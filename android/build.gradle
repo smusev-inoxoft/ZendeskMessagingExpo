@@ -23,12 +23,20 @@ if (useManagedAndroidSdkVersions) {
     }
   }
   project.android {
-    compileSdkVersion safeExtGet("compileSdkVersion", 34)
+    compileSdkVersion safeExtGet("compileSdkVersion", 31)
     defaultConfig {
       minSdkVersion safeExtGet("minSdkVersion", 21)
-      targetSdkVersion safeExtGet("targetSdkVersion", 34)
+      targetSdkVersion safeExtGet("targetSdkVersion", 31)
     }
   }
+}
+
+repositories {
+
+}
+
+dependencies{
+  implementation "zendesk.messaging:messaging-android:2.21.0"
 }
 
 android {
@@ -39,5 +47,10 @@ android {
   }
   lintOptions {
     abortOnError false
+  }
+  compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    
   }
 }
