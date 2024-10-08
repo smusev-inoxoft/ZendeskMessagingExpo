@@ -1,7 +1,4 @@
-export type ChangeEventPayload = {
-  value: string;
-};
-
-export type ZendeskMessagingExpoViewProps = {
-  name: string;
-};
+export interface ZendeskUser {
+  id: string;
+  externalId: string;
+}
