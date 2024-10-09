@@ -9,7 +9,6 @@ export const PI = ZendeskMessagingExpoModule.PI;
 export function hello(): string {
   return ZendeskMessagingExpoModule.hello();
 }
-
 /**
  * Initializing Zendesk SDK.
  *
@@ -32,7 +31,7 @@ export async function loginUser(token: string): Promise<ZendeskUser> {
   if (typeof token !== "string" || !token.length) {
     return Promise.reject(new Error("invalid token"));
   }
-  return ZendeskMessagingExpoModule.login(token);
+  return ZendeskMessagingExpoModule.loginUser(token);
 }
 
 /**
