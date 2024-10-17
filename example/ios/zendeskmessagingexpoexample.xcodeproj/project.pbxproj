@@ -11,11 +11,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		8E6BE179F5E74595B060D150 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CFA228B2ED421396D42614 /* noop-file.swift */; };
 		96905EF65AED1B983A6B3ABC /* libPods-zendeskmessagingexpoexample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-zendeskmessagingexpoexample.a */; };
-		AC36C65F81D74F458B1D2685 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9133EFDFE64622AA769C05 /* noop-file.swift */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C6741CC1820ADAE70F7CEF8B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9E5A44907A0D7EA84537252A /* PrivacyInfo.xcprivacy */; };
+		E0A32BA904F4F508CD907C81 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 59614788CEE1D80144604164 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,12 +25,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = zendeskmessagingexpoexample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = zendeskmessagingexpoexample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = zendeskmessagingexpoexample/main.m; sourceTree = "<group>"; };
-		3F9133EFDFE64622AA769C05 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "zendeskmessagingexpoexample/noop-file.swift"; sourceTree = "<group>"; };
+		3EBB9F156629421C91D3DDC9 /* zendeskmessagingexpoexample-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "zendeskmessagingexpoexample-Bridging-Header.h"; path = "zendeskmessagingexpoexample/zendeskmessagingexpoexample-Bridging-Header.h"; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-zendeskmessagingexpoexample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zendeskmessagingexpoexample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		59614788CEE1D80144604164 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = zendeskmessagingexpoexample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-zendeskmessagingexpoexample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zendeskmessagingexpoexample.debug.xcconfig"; path = "Target Support Files/Pods-zendeskmessagingexpoexample/Pods-zendeskmessagingexpoexample.debug.xcconfig"; sourceTree = "<group>"; };
+		74CFA228B2ED421396D42614 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "zendeskmessagingexpoexample/noop-file.swift"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-zendeskmessagingexpoexample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zendeskmessagingexpoexample.release.xcconfig"; path = "Target Support Files/Pods-zendeskmessagingexpoexample/Pods-zendeskmessagingexpoexample.release.xcconfig"; sourceTree = "<group>"; };
-		88C1843127C1470384E366DF /* zendeskmessagingexpoexample-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "zendeskmessagingexpoexample-Bridging-Header.h"; path = "zendeskmessagingexpoexample/zendeskmessagingexpoexample-Bridging-Header.h"; sourceTree = "<group>"; };
-		9E5A44907A0D7EA84537252A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = zendeskmessagingexpoexample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = zendeskmessagingexpoexample/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -59,9 +59,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				3F9133EFDFE64622AA769C05 /* noop-file.swift */,
-				88C1843127C1470384E366DF /* zendeskmessagingexpoexample-Bridging-Header.h */,
-				9E5A44907A0D7EA84537252A /* PrivacyInfo.xcprivacy */,
+				74CFA228B2ED421396D42614 /* noop-file.swift */,
+				3EBB9F156629421C91D3DDC9 /* zendeskmessagingexpoexample-Bridging-Header.h */,
+				59614788CEE1D80144604164 /* PrivacyInfo.xcprivacy */,
 			);
 			name = zendeskmessagingexpoexample;
 			sourceTree = "<group>";
@@ -147,13 +147,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "zendeskmessagingexpoexample" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				92EC31EF2655C6BC284A0557 /* [Expo] Configure project */,
+				E9B72A4E5286066DE8BFB27F /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				E3781ED042FC52AB84345EFA /* [CP] Embed Pods Frameworks */,
+				E165D45DED78D0C04A64687F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -203,7 +203,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				C6741CC1820ADAE70F7CEF8B /* PrivacyInfo.xcprivacy in Resources */,
+				E0A32BA904F4F508CD907C81 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +271,47 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-zendeskmessagingexpoexample/Pods-zendeskmessagingexpoexample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		92EC31EF2655C6BC284A0557 /* [Expo] Configure project */ = {
+		E165D45DED78D0C04A64687F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-zendeskmessagingexpoexample/Pods-zendeskmessagingexpoexample-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Zendesk/ZendeskSDK.framework/ZendeskSDK",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKConversationKit/ZendeskSDKConversationKit.framework/ZendeskSDKConversationKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKCoreUtilities/ZendeskSDKCoreUtilities.framework/ZendeskSDKCoreUtilities",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKFayeClient/ZendeskSDKFayeClient.framework/ZendeskSDKFayeClient",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKGuideKit/ZendeskSDKGuideKit.framework/ZendeskSDKGuideKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKHTTPClient/ZendeskSDKHTTPClient.framework/ZendeskSDKHTTPClient",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKLogger/ZendeskSDKLogger.framework/ZendeskSDKLogger",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKMessaging/ZendeskSDKMessaging.framework/ZendeskSDKMessaging",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKSocketClient/ZendeskSDKSocketClient.framework/ZendeskSDKSocketClient",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKStorage/ZendeskSDKStorage.framework/ZendeskSDKStorage",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ZendeskSDKUIComponents/ZendeskSDKUIComponents.framework/ZendeskSDKUIComponents",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKConversationKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKCoreUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKFayeClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKGuideKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKHTTPClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKLogger.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKSocketClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKStorage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZendeskSDKUIComponents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-zendeskmessagingexpoexample/Pods-zendeskmessagingexpoexample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9B72A4E5286066DE8BFB27F /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -290,24 +330,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-zendeskmessagingexpoexample/expo-configure-project.sh\"\n";
 		};
-		E3781ED042FC52AB84345EFA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-zendeskmessagingexpoexample/Pods-zendeskmessagingexpoexample-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-zendeskmessagingexpoexample/Pods-zendeskmessagingexpoexample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -318,7 +340,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				AC36C65F81D74F458B1D2685 /* noop-file.swift in Sources */,
+				8E6BE179F5E74595B060D150 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
