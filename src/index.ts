@@ -1,7 +1,7 @@
 // Import the native module. On web, it will be resolved to ZendeskMessagingExpo.web.ts
 // and on native platforms to ZendeskMessagingExpo.ts
-import { EventEmitter, Subscription } from 'expo-modules-core';
-import { ZendeskEvent, ZendeskEventType, ZendeskInitializeConfig, ZendeskUser, EmitterSubscription } from "./ZendeskMessagingExpo.types";
+import { EventEmitter, Platform, Subscription } from 'expo-modules-core';
+import { ZendeskEvent, ZendeskEventType, ZendeskInitializeConfig, ZendeskUser, EmitterSubscription, ZendeskNotificationResponsibility } from "./ZendeskMessagingExpo.types";
 import ZendeskMessagingExpoModule from "./ZendeskMessagingExpoModule";
 
 // Get the native constant value.
@@ -97,4 +97,32 @@ export function removeSubscription(subscription: EmitterSubscription): void {
  */
 export function removeAllListeners(type: ZendeskEventType): void {
   eventEmitter.removeAllListeners(type);
+}
+
+/**
+ * **Android Only** (no-op for other platform)
+ *
+ * Set push notification token(FCM).
+ *
+ * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#updating-push-notification-tokens}
+ */
+export function updatePushNotificationToken(token: string): void {
+  if (Platform.OS !== 'android') return;
+  return ZendeskMessagingExpoModule.updatePushNotificationToken(token);
+}
+
+/**
+ * **Android Only** (no-op for other platform, always return `UNKNOWN`)
+ *
+ * Handle remote message that received from FCM(Firebase Cloud Messaging) and show notifications.
+ * If remote message isn't Zendesk message, it does nothing.
+ *
+ * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#using-a-custom-implementation-of-firebasemessagingservice}
+ */
+export function handleNotification(
+  remoteMessage: Record<string, string>
+): Promise<ZendeskNotificationResponsibility> {
+  return Platform.OS === 'android'
+    ? ZendeskMessagingExpoModule.handleNotification(remoteMessage)
+    : Promise.resolve('UNKNOWN');
 }

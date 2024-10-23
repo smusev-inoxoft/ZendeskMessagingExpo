@@ -1,7 +1,7 @@
 import ExpoModulesCore
 import ZendeskSDKMessaging
 import ZendeskSDK
-
+import UserNotifications
 
 public class ZendeskMessagingExpoModule: Module {
   private var zendeskInstance: Zendesk?
@@ -14,7 +14,7 @@ public class ZendeskMessagingExpoModule: Module {
     // The module will be accessible from `requireNativeModule('ZendeskMessagingExpo')` in JavaScript.
     Name("ZendeskMessagingExpo")
 
-    Events("unreadMessageCountChanged", "authenticationFailed")
+    Events("unreadMessageCountChanged","authenticationFailed","fieldValidationFailed","connectionStatusChanged","sendMessageFailed","conversationAdded")
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     Constants([
       "PI": Double.pi
@@ -206,6 +206,18 @@ public class ZendeskMessagingExpoModule: Module {
             case .authenticationFailed(let error):
                 self.sendEvent("authenticationFailed", [
                     "reason": error.localizedDescription
+                ])
+            case .connectionStatusChanged(let connectionStatus):
+                self.sendEvent("connectionStatusChanged", [
+                    "connectionStatus": connectionStatus
+                ])
+            case .sendMessageFailed(let cause):
+                self.sendEvent("sendMessageFailed", [
+                    "cause": cause
+                ])
+            case .conversationAdded(let conversationId):
+                self.sendEvent("conversationAdded", [
+                    "conversationId": conversationId
                 ])
             @unknown default:
                 break
