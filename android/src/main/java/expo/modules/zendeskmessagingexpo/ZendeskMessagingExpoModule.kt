@@ -177,17 +177,6 @@ class ZendeskMessagingExpoModule : Module() {
                 throw error
             }
         }
-
-        AsyncFunction("registerPushToken") { token: String ->
-          try {
-              // Assuming Zendesk SDK has some way to register a push token, use that method
-              PushNotifications.updatePushNotificationToken(token)
-              // If successful, you can resolve true or return success confirmation
-              true
-          } catch (error: Exception) {
-              // Handle error if it occurs
-              throw error
-          }
 }
 
     }

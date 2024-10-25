@@ -22,7 +22,7 @@ public class ZendeskMessagingExpoModule: Module {
     AsyncFunction("initialize") { (config: [String: Any]) in
       return try await withCheckedThrowingContinuation {
         (continuation: CheckedContinuation<Bool, Error>) in
-        let channelKey = config["channelKey"] as! String
+        let channelKey = confighandleIncomingNotification["channelKey"] as! String
         let skipOpenMessaging = config["skipOpenMessaging"] as! Bool
 
         self.initialize(withChannelKey: channelKey) { result in
@@ -60,7 +60,6 @@ public class ZendeskMessagingExpoModule: Module {
 
       switch shouldBeDisplayed {
       case .messagingShouldDisplay:
-        self.openMessageViewByPushNotification(userInfo)
         promise.resolve("MESSAGING_SHOULD_DISPLAY")
       case .messagingShouldNotDisplay:
         promise.resolve("MESSAGING_SHOULD_NOT_DISPLAY")
@@ -70,9 +69,13 @@ public class ZendeskMessagingExpoModule: Module {
       }
     }
 
+    AsyncFunction("handleNotificationClick") { (userInfo: [AnyHashable: Any]) in
+      self.openMessageViewByPushNotification(userInfo)
+    }
+
     AsyncFunction("getUnreadMessageCount") { (promise: Promise) in
-          let count = self.getUnreadMessageCount()
-          promise.resolve(count)
+      let count = self.getUnreadMessageCount()
+      promise.resolve(count)
     }
 
     AsyncFunction("loginUser") { (token: String, promise: Promise) in
@@ -252,15 +255,16 @@ public class ZendeskMessagingExpoModule: Module {
 
   private func openMessageViewByPushNotification(
     _ userInfo: [AnyHashable: Any]? = nil
-  ) -> Void {
-    guard let userInfo = userInfo  else {
+  ) {
+    guard let userInfo = userInfo else {
       return
     }
 
     PushNotifications.handleTap(userInfo) { viewController in
       self.receivedUserInfo = nil
       guard let rootController = RCTPresentedViewController(),
-            let viewController = viewController else {
+        let viewController = viewController
+      else {
         return
       }
       rootController.show(viewController, sender: self)

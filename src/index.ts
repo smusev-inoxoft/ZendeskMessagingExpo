@@ -101,9 +101,14 @@ export function removeAllListeners(type: ZendeskEventType): void {
  *
  * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#updating-push-notification-tokens}
  */
-export function updatePushNotificationToken(token: string): void {
-  if (Platform.OS !== 'android') return;
+export async function updatePushNotificationToken(token: string): Promise<void> {
+  if (Platform.OS !== 'android') return ;
   return ZendeskMessagingExpoModule.updatePushNotificationToken(token);
+}
+
+export function handleNotificationClick(remoteMessage: Record<string, string>): void {
+  if (Platform.OS === 'android') return;
+  return ZendeskMessagingExpoModule.handleNotificationClick(remoteMessage);
 }
 
 /**
@@ -118,8 +123,4 @@ export function handleNotification(
   remoteMessage: Record<string, string>
 ): Promise<ZendeskNotificationResponsibility> {
   return ZendeskMessagingExpoModule.handleNotification(remoteMessage)
-}
-
-export function registerPushToken(token: string): Promise<ZendeskNotificationResponsibility> {
-  return ZendeskMessagingExpoModule.updatePushNotificationToken(token)
 }
