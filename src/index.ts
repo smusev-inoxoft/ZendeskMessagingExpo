@@ -4,12 +4,7 @@ import { EventEmitter, Platform, Subscription } from 'expo-modules-core';
 import { ZendeskEvent, ZendeskEventType, ZendeskInitializeConfig, ZendeskUser, EmitterSubscription, ZendeskNotificationResponsibility } from "./ZendeskMessagingExpo.types";
 import ZendeskMessagingExpoModule from "./ZendeskMessagingExpoModule";
 
-// Get the native constant value.
-export const PI = ZendeskMessagingExpoModule.PI;
 
-export function hello(): string {
-  return ZendeskMessagingExpoModule.hello();
-}
 /**
  * Initializing Zendesk SDK.
  *
@@ -19,7 +14,7 @@ export function hello(): string {
  * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/getting_started/#initialize-the-sdk}
  */
 export async function initialize(config: ZendeskInitializeConfig) {
-  return ZendeskMessagingExpoModule.initialize(config.channelKey);
+  return ZendeskMessagingExpoModule.initialize({skipOpenMessaging: false, ...config});
 }
 
 /**

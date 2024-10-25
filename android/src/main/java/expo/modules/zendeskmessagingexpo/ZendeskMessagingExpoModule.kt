@@ -50,8 +50,9 @@ class ZendeskMessagingExpoModule : Module() {
 
         // Defines a JavaScript function that always returns a Promise and whose native code
         // is by default dispatched on the different thread than the JavaScript runtime runs on.
-        AsyncFunction("initialize") { channelKey: String, promise: Promise ->
+        AsyncFunction("initialize") { config: Map<String, String>, promise: Promise ->
             val reactContext = appContext.reactContext!!
+            val channelKey = config["channelKey"] as String
             try {
                 Zendesk.initialize(
                     reactContext,
@@ -157,7 +158,9 @@ class ZendeskMessagingExpoModule : Module() {
                 handleZendeskNotification(
                     context = appContext.reactContext!!,
                     messageData = remoteMessage,
-                ) { responsibility -> promise.resolve(responsibility) }
+                ) { responsibility -> 
+                promise.resolve(responsibility) 
+                }
             } catch (error: Exception) {
                 promise.reject("UnexpectedError", "An unexpected error occurred", error)
             }
