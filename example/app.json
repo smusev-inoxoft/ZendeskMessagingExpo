@@ -21,7 +21,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "expo.modules.zendeskmessagingexpo.example",
-      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"]
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,6 +43,11 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "aeb6c3b3-4604-404a-82ba-5375b7499810"
+      }
+    }
   }
 }

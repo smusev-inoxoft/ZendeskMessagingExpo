@@ -122,6 +122,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
         coreLibraryDesugaringEnabled true
     }
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -174,7 +175,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
@@ -205,3 +206,5 @@ if (rnVersion < versionToNumber(0, 75, 0)) {
     apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), "../native_modules.gradle");
     applyNativeModulesAppBuildGradle(project)
 }
+
+apply plugin: 'com.google.gms.google-services'

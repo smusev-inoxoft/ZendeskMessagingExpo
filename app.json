@@ -8,6 +8,25 @@
     "platforms": [
       "ios",
       "android"
+    ],
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          }
+        },
+        "expo-android-app-gradle-dependencies", 
+        {
+          "spacing": "    ",
+          "dependencies": [
+            "coreLibraryDesugaring com.android.tools:desugar_jdk_libs:2.0.4"
+          ]
+        }
+      ]
     ]
   }
 }

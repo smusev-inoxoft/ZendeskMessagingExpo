@@ -1,10 +1,11 @@
 import ExpoModulesCore
 import ZendeskSDKMessaging
 import ZendeskSDK
-import UserNotifications
 
 public class ZendeskMessagingExpoModule: Module {
   private var zendeskInstance: Zendesk?
+  private static var receivedUserInfo: [AnyHashable: Any]?
+
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
@@ -14,7 +15,7 @@ public class ZendeskMessagingExpoModule: Module {
     // The module will be accessible from `requireNativeModule('ZendeskMessagingExpo')` in JavaScript.
     Name("ZendeskMessagingExpo")
 
-    Events("unreadMessageCountChanged","authenticationFailed","fieldValidationFailed","connectionStatusChanged","sendMessageFailed","conversationAdded")
+    Events("unreadMessageCountChanged","authenticationFailed","connectionStatusChanged","sendMessageFailed","conversationAdded")
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     Constants([
       "PI": Double.pi
@@ -45,6 +46,30 @@ public class ZendeskMessagingExpoModule: Module {
     AsyncFunction("reset") { (promise: Promise) in
       self.reset()
       promise.resolve("Zendesk has been reset successfully")
+    }
+
+    AsyncFunction("updatePushNotificationToken") { (token: String) in
+      if let tokenData = Data(base64Encoded: token) {
+          // Use the tokenData for Push Notification update
+          PushNotifications.updatePushNotificationToken(tokenData)
+      } else {
+          // Handle the error if conversion fails
+          print("Failed to convert token string to Data")
+      }
+    }
+
+    AsyncFunction("handleNotification") { (userInfo: [AnyHashable: Any], promise: Promise) in
+      let shouldBeDisplayed = PushNotifications.shouldBeDisplayed(userInfo)
+
+      switch shouldBeDisplayed {
+        case .messagingShouldDisplay:
+            promise.resolve("MESSAGING_SHOULD_DISPLAY")
+        case .messagingShouldNotDisplay:
+            promise.resolve("MESSAGING_SHOULD_NOT_DISPLAY")
+        case .notFromMessaging:
+            promise.resolve("NOT_FROM_MESSAGING")
+        @unknown default: break
+      }
     }
 
     AsyncFunction("getUnreadMessageCount") { (promise: Promise) in
@@ -224,5 +249,83 @@ public class ZendeskMessagingExpoModule: Module {
             }
         }
     }
+
+  @objc(updatePushNotificationToken:)
+    func updatePushNotificationToken( token: Data) -> Void {
+      PushNotifications.updatePushNotificationToken(token)
+    }
+
+    @objc(showNotification:completionHandler:)
+    static func showNotification(
+      _ userInfo: [AnyHashable: Any],
+      withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) -> Bool {
+      var handled = true
+      let shouldBeDisplayed = PushNotifications.shouldBeDisplayed(userInfo)
+
+      switch shouldBeDisplayed {
+      case .messagingShouldDisplay:
+        if #available(iOS 14.0, *) {
+          completionHandler([.banner, .sound, .badge])
+        } else {
+          completionHandler([.alert, .sound, .badge])
+        }
+      case .messagingShouldNotDisplay:
+        completionHandler([])
+      case .notFromMessaging:
+        fallthrough
+      @unknown default:
+        handled = false
+      }
+
+      return handled
+    }
+
+    @objc(handleNotification:completionHandler:)
+    static func handleNotification(
+      _ userInfo: [AnyHashable: Any],
+      withCompletionHandler completionHandler: @escaping () -> Void
+    ) -> Bool {
+      var handled = true
+      let shouldBeDisplayed = PushNotifications.shouldBeDisplayed(userInfo)
+
+      switch shouldBeDisplayed {
+      case .messagingShouldDisplay:
+        openMessageViewByPushNotification(userInfo) { openBeforeInitialize in
+          receivedUserInfo = openBeforeInitialize ? userInfo : nil
+        }
+        completionHandler()
+      case .messagingShouldNotDisplay:
+        completionHandler()
+      case .notFromMessaging:
+        fallthrough
+      @unknown default:
+        handled = false
+      }
+
+      return handled
+    }
+
+    static func openMessageViewByPushNotification(
+      _ userInfo: [AnyHashable: Any]? = nil,
+      completionHandler: ((Bool) -> Void)? = nil
+    ) -> Void {
+      guard let userInfo = userInfo ?? receivedUserInfo else {
+        completionHandler?(false)
+        return
+      }
+
+      PushNotifications.handleTap(userInfo) { viewController in
+        receivedUserInfo = nil
+        guard let rootController = RCTPresentedViewController(),
+              let viewController = viewController else {
+          completionHandler?(viewController == nil)
+          return
+        }
+        rootController.show(viewController, sender: self)
+        completionHandler?(false)
+      }
+    }
+
 
 }

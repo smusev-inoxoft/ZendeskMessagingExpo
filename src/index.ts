@@ -122,7 +122,9 @@ export function updatePushNotificationToken(token: string): void {
 export function handleNotification(
   remoteMessage: Record<string, string>
 ): Promise<ZendeskNotificationResponsibility> {
-  return Platform.OS === 'android'
-    ? ZendeskMessagingExpoModule.handleNotification(remoteMessage)
-    : Promise.resolve('UNKNOWN');
+  return ZendeskMessagingExpoModule.handleNotification(remoteMessage)
+}
+
+export function registerPushToken(token: string): Promise<ZendeskNotificationResponsibility> {
+  return ZendeskMessagingExpoModule.updatePushNotificationToken(token)
 }
