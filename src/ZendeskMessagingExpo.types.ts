@@ -12,7 +12,6 @@ export type ZendeskEventType = keyof ZendeskEventResponse;
 export type ZendeskEvent<Type extends ZendeskEventType> =
   ZendeskEventResponse[Type];
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- allow type
 type ZendeskEventResponse = {
   unreadMessageCountChanged: {
     unreadCount: number;
@@ -21,17 +20,17 @@ type ZendeskEventResponse = {
     reason: string;
   };
   fieldValidationFailed: {
-    errors: Array<string>
+    errors: string[];
   };
   connectionStatusChanged: {
-    connectionStatus: ZendeskConnectionStatus
+    connectionStatus: ZendeskConnectionStatus;
   };
   sendMessageFailed: {
     cause: string;
   };
   conversationAdded: {
-    conversationId: string
-  }
+    conversationId: string;
+  };
   onNotificationReceived: {
     reason: string;
   };
@@ -41,14 +40,10 @@ type ZendeskConnectionStatus =
   | "connected"
   | "connectedRealtime"
   | "connectingRealtime"
-  | "disconnected"
-
-export type EmitterSubscription = {
-  remove: () => void; // The remove method to unsubscribe from the event
-};
+  | "disconnected";
 
 export type ZendeskNotificationResponsibility =
-  | 'MESSAGING_SHOULD_DISPLAY'
-  | 'MESSAGING_SHOULD_NOT_DISPLAY'
-  | 'NOT_FROM_MESSAGING'
-  | 'UNKNOWN';
+  | "MESSAGING_SHOULD_DISPLAY"
+  | "MESSAGING_SHOULD_NOT_DISPLAY"
+  | "NOT_FROM_MESSAGING"
+  | "UNKNOWN";

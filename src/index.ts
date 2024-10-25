@@ -1,25 +1,29 @@
-// Import the native module. On web, it will be resolved to ZendeskMessagingExpo.web.ts
-// and on native platforms to ZendeskMessagingExpo.ts
-import { EventEmitter, Platform, Subscription } from 'expo-modules-core';
-import { ZendeskEvent, ZendeskEventType, ZendeskInitializeConfig, ZendeskUser, EmitterSubscription, ZendeskNotificationResponsibility } from "./ZendeskMessagingExpo.types";
+import { EventEmitter, Platform, Subscription } from "expo-modules-core";
+
+import {
+  ZendeskEvent,
+  ZendeskEventType,
+  ZendeskInitializeConfig,
+  ZendeskUser,
+  ZendeskNotificationResponsibility,
+} from "./ZendeskMessagingExpo.types";
 import ZendeskMessagingExpoModule from "./ZendeskMessagingExpoModule";
 
-// Get the native constant value.
-export const PI = ZendeskMessagingExpoModule.PI;
+const eventEmitter = new EventEmitter(ZendeskMessagingExpoModule);
 
-export function hello(): string {
-  return ZendeskMessagingExpoModule.hello();
-}
 /**
- * Initializing Zendesk SDK.
+ * Initializes Zendesk SDK.
  *
  * You should call this function first before using other features.
  *
  * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/getting_started/#initialize-the-sdk}
  * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/getting_started/#initialize-the-sdk}
  */
-export async function initialize(config: ZendeskInitializeConfig) {
-  return ZendeskMessagingExpoModule.initialize(config.channelKey);
+export function initialize(config: ZendeskInitializeConfig): Promise<void> {
+  return ZendeskMessagingExpoModule.initialize({
+    skipOpenMessaging: false,
+    ...config,
+  });
 }
 
 /**
@@ -27,7 +31,7 @@ export async function initialize(config: ZendeskInitializeConfig) {
  *
  * After calling this method you will have to call `initialize` again if you would like to use Zendesk.
  */
-export function reset(): void {
+export function reset(): Promise<void> {
   return ZendeskMessagingExpoModule.reset();
 }
 
@@ -37,11 +41,12 @@ export function reset(): void {
  * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/advanced_integration/#loginuser}
  * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/advanced_integration/#loginuser}
  */
-export async function loginUser(token: string): Promise<ZendeskUser> {
-  if (typeof token !== "string" || !token.length) {
-    return Promise.reject(new Error("invalid token"));
+export async function loginUser(jwtToken: string): Promise<ZendeskUser> {
+  if (jwtToken.length === 0) {
+    throw new Error("invalid token");
   }
-  return ZendeskMessagingExpoModule.loginUser(token);
+
+  return ZendeskMessagingExpoModule.loginUser(jwtToken);
 }
 
 /**
@@ -54,7 +59,6 @@ export function logout(): Promise<void> {
   return ZendeskMessagingExpoModule.logoutUser();
 }
 
-
 /**
  * Show the native based conversation screen.
  *
@@ -65,30 +69,25 @@ export async function openMessagingView(): Promise<void> {
   return ZendeskMessagingExpoModule.openMessagingView();
 }
 
-export async function setValueAsync(value: string) {
-  return await ZendeskMessagingExpoModule.setValueAsync(value);
-}
-
+/** Unread counter for current user */
 export function getUnreadMessageCount(): Promise<number> {
   return ZendeskMessagingExpoModule.getUnreadMessageCount();
 }
-
-const eventEmitter = new EventEmitter(ZendeskMessagingExpoModule);
 
 /**
  * Add a listener for listening emitted events by Zendesk SDK.
  */
 export function addEventListener<EventType extends ZendeskEventType>(
   type: EventType,
-  listener: (event: ZendeskEvent<EventType>) => void
-): EmitterSubscription {
+  listener: (event: ZendeskEvent<EventType>) => void,
+): Subscription {
   return eventEmitter.addListener(type, listener);
 }
 
 /**
  * Remove subscribed event listener.
  */
-export function removeSubscription(subscription: EmitterSubscription): void {
+export function removeSubscription(subscription: Subscription): void {
   eventEmitter.removeSubscription(subscription);
 }
 
@@ -100,29 +99,34 @@ export function removeAllListeners(type: ZendeskEventType): void {
 }
 
 /**
- * **Android Only** (no-op for other platform)
+ * Set push notification token.
  *
- * Set push notification token(FCM).
- *
+ * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/push_notifications/#step-6---add-the-zendesk-sdk-to-your-app}
  * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#updating-push-notification-tokens}
  */
-export function updatePushNotificationToken(token: string): void {
-  if (Platform.OS !== 'android') return;
+export async function updatePushNotificationToken(
+  token: string,
+): Promise<void> {
   return ZendeskMessagingExpoModule.updatePushNotificationToken(token);
 }
 
 /**
- * **Android Only** (no-op for other platform, always return `UNKNOWN`)
- *
- * Handle remote message that received from FCM(Firebase Cloud Messaging) and show notifications.
+ * Handle incoming remote message and show notification.
  * If remote message isn't Zendesk message, it does nothing.
- *
- * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#using-a-custom-implementation-of-firebasemessagingservice}
  */
 export function handleNotification(
-  remoteMessage: Record<string, string>
+  remoteMessage: Record<string, string>,
 ): Promise<ZendeskNotificationResponsibility> {
-  return Platform.OS === 'android'
-    ? ZendeskMessagingExpoModule.handleNotification(remoteMessage)
-    : Promise.resolve('UNKNOWN');
+  return ZendeskMessagingExpoModule.handleNotification(remoteMessage);
+}
+
+/**
+ * Handles click event on a notification.
+ * Does nothing on Android.
+ */
+export async function handleNotificationClick(
+  remoteMessage: Record<string, string>,
+): Promise<void> {
+  if (Platform.OS === "android") return;
+  return ZendeskMessagingExpoModule.handleNotificationClick(remoteMessage);
 }

@@ -1,99 +1,143 @@
+import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
 import { Button, Platform, StyleSheet, Text, View } from "react-native";
-
 import * as ZendeskMessagingExpo from "zendesk-messaging-expo";
 
-type AppStatus = {
-  isInitialized: boolean;
-  statusMessage: string;
-  unreadCount?: number;
-}
-
 export default function App() {
-  const [appStatus, setAppStatus] = useState<AppStatus>({ isInitialized: false, statusMessage: '' })
+  const [isInitialized, setInitialized] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [unreadCount, setUnreadCount] = useState(10);
 
-  useEffect(() => {
-    handleInit();
-    ZendeskMessagingExpo.addEventListener('unreadMessageCountChanged', e => setAppStatus(prev => { return { ...prev, unreadCount: e.unreadCount } }))
-    ZendeskMessagingExpo.addEventListener('authenticationFailed', e => setAppStatus({ isInitialized: false, statusMessage: 'authenticationFailed' }))
-    ZendeskMessagingExpo.getUnreadMessageCount().then(res => console.log('UNREAD COUNT : ', res))
-  }, []);
-
-  const handleInit = async () => {
+  const initializeZendesk = async () => {
     try {
       const zendeskChannelKey =
         Platform.OS === "ios"
-          ? process.env.EXPO_ZENDESK_IOS_CHANNEL_KEY || "IOS_CHANNEL_KEY"
-          : process.env.EXPO_ZENDESK_ANDROID_CHANNEL_KEY ||
-          "ANDROID_CHANNEL_KEY";
-      await ZendeskMessagingExpo.initialize({ channelKey: zendeskChannelKey, skipOpenMessaging: false });
-      console.log("Zendesk initialized");
-      setAppStatus({ isInitialized: true, statusMessage: 'Zendesk initialized' })
-      //fetch JWT from your backend - in production make sure you authenticate the user
-      const zendeskJwtUrl =
-        process.env.EXPO_ZENDESK_JWT_URL ||
-        "https://EXAMPLE_BACKEND?email=test-user@example.com";
-      const response = await fetch(zendeskJwtUrl);
-      const jwt = await response.text();
-      const zendeskUser = await ZendeskMessagingExpo.loginUser(jwt);
-      console.log("Logged in Zendesk user", zendeskUser);
+          ? process.env.EXPO_ZENDESK_IOS_CHANNEL_KEY
+          : process.env.EXPO_ZENDESK_ANDROID_CHANNEL_KEY;
 
+      if (!zendeskChannelKey) {
+        throw new Error(
+          "Missing channel key. Make sure to set it in .env file",
+        );
+      }
+
+      await ZendeskMessagingExpo.initialize({
+        channelKey: zendeskChannelKey,
+        skipOpenMessaging: false,
+      });
+
+      setInitialized(true);
+      setStatusMessage("Zendesk initialized");
+
+      const jwt = process.env.EXPO_ZENDESK_JWT;
+      if (!jwt) {
+        throw new Error("Missing jwt. Make sure to set it in .env file");
+      }
+
+      await ZendeskMessagingExpo.loginUser(jwt);
       ZendeskMessagingExpo.openMessagingView();
-    } catch (e) {
-      setAppStatus({ isInitialized: false, statusMessage: 'Zendesk error: \n' + e })
+    } catch (error) {
+      setInitialized(false);
+      setStatusMessage(`Zendesk error:\n${error}`);
     }
-  }
+  };
 
-  const handleReset = () => {
+  const handleOpenMessagingPress = async () => {
     try {
-      ZendeskMessagingExpo.reset()
-      setAppStatus({ isInitialized: false, statusMessage: 'Zendesk invalidated' })
+      await ZendeskMessagingExpo.openMessagingView();
     } catch (e) {
-      setAppStatus({ isInitialized: false, statusMessage: 'Zendesk error: \n' + e })
+      setStatusMessage(`Zendesk error:\n${e}`);
     }
-  }
+  };
 
-  const handleLogout = () => {
+  const handleLogoutPress = async () => {
     try {
-      ZendeskMessagingExpo.logout()
-      setAppStatus({ isInitialized: false, statusMessage: 'user logout' })
+      await ZendeskMessagingExpo.logout();
+      setStatusMessage("User is logged out");
     } catch (e) {
-      setAppStatus({ isInitialized: false, statusMessage: 'Zendesk error: \n' + e })
+      setStatusMessage(`Zendesk error:\n${e}`);
+    } finally {
+      setInitialized(false);
     }
-  }
+  };
+
+  const handleResetPress = async () => {
+    try {
+      await ZendeskMessagingExpo.reset();
+      setStatusMessage("Zendesk has been invalidated");
+    } catch (error) {
+      setStatusMessage(`Zendesk error:\n${error}`);
+    } finally {
+      setInitialized(false);
+    }
+  };
+
+  const requestNotificationPermission = async () => {
+    try {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== "granted") {
+        throw new Error("Missing notification permission");
+      }
+
+      const { data: pnsToken } = await Notifications.getDevicePushTokenAsync();
+      ZendeskMessagingExpo.updatePushNotificationToken(pnsToken);
+    } catch (error) {
+      setStatusMessage(`Push notifications error:\n${error}`);
+    }
+  };
+
+  useEffect(() => {
+    initializeZendesk();
+    requestNotificationPermission();
+
+    ZendeskMessagingExpo.addEventListener(
+      "unreadMessageCountChanged",
+      ({ unreadCount }) => setUnreadCount(unreadCount),
+    );
+
+    ZendeskMessagingExpo.addEventListener("authenticationFailed", () => {
+      setInitialized(false);
+      setStatusMessage("Authentication failed");
+    });
+
+    ZendeskMessagingExpo.getUnreadMessageCount().then((unreadCount) =>
+      setUnreadCount(unreadCount),
+    );
+
+    Notifications.addNotificationResponseReceivedListener((response) => {
+      const remoteMessage = response.notification.request.content.data;
+      ZendeskMessagingExpo.handleNotificationClick(remoteMessage);
+    });
+
+    Notifications.setNotificationHandler({
+      handleNotification: async (notification) => {
+        const responsibility = await ZendeskMessagingExpo.handleNotification(
+          notification.request.content.data,
+        );
+
+        const shouldDisplay = responsibility !== "MESSAGING_SHOULD_NOT_DISPLAY";
+        return {
+          shouldShowAlert: shouldDisplay,
+          shouldPlaySound: shouldDisplay,
+          shouldSetBadge: shouldDisplay,
+        };
+      },
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>{ZendeskMessagingExpo.hello()}</Text>
-      <Text>{appStatus.statusMessage}</Text>
-      {appStatus.isInitialized
-        ? <Button title="reset" onPress={handleReset}></Button>
-        : <Button title="initialize" onPress={handleInit}></Button>
-      }
-      <View style={{ marginTop: 100 }}>
-
-        <Button
-          color={'lightblue'}
-          title="open view"
-          onPress={ZendeskMessagingExpo.openMessagingView}
-        // disabled={!appStatus.isInitialized}
-        />
-        {!!appStatus.unreadCount &&
-          <View style={{
-            backgroundColor: 'darkred',
-            height: 24,
-            width: 24,
-            borderRadius: 24,
-            position: 'absolute',
-            right: -12,
-            top: -10,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Text style={{ color: 'white' }} >{appStatus.unreadCount}</Text>
-          </View>}
-      </View>
-      <Button title="logout" onPress={handleLogout}></Button>
+      <Text>{statusMessage}</Text>
+      {isInitialized ? (
+        <>
+          <Text>You have {unreadCount} unread messages.</Text>
+          <Button title="Log out" onPress={handleLogoutPress} />
+          <Button title="Reset Zendesk" onPress={handleResetPress} />
+        </>
+      ) : (
+        <Button title="Initialize Zendesk" onPress={initializeZendesk} />
+      )}
+      <Button title="Open messaging" onPress={handleOpenMessagingPress} />
     </View>
   );
 }
@@ -101,8 +145,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    padding: 16,
+    gap: 16,
+    backgroundColor: "white",
   },
 });

@@ -21,7 +21,10 @@
         "backgroundColor": "#ffffff"
       },
       "package": "expo.modules.zendeskmessagingexpo.example",
-      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"]
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,7 +41,8 @@
             ]
           }
         }
-      ]
+      ],
+      "../app.plugin"
     ]
   }
 }
