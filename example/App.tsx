@@ -1,13 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Alert,
-  Button,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { useEffect, useState } from "react";
+import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import * as ZendeskMessagingExpo from "zendesk-messaging-expo";
 import * as Notifications from "expo-notifications";
 
@@ -24,21 +16,26 @@ export default function App() {
   });
 
   useEffect(() => {
+    //initialize zendesk instance first
     handleInit();
+    // this event updating unread messages counter
     ZendeskMessagingExpo.addEventListener("unreadMessageCountChanged", (e) =>
       setAppStatus((prev) => {
         return { ...prev, unreadCount: e.unreadCount };
       })
     );
+    // auth error handling
     ZendeskMessagingExpo.addEventListener("authenticationFailed", (e) =>
       setAppStatus({
         isInitialized: false,
         statusMessage: "authenticationFailed",
       })
     );
+    // get unread counter manually
     ZendeskMessagingExpo.getUnreadMessageCount().then((res) =>
       console.log("UNREAD COUNT : ", res)
     );
+    // handle notification click logic
     Notifications.addNotificationResponseReceivedListener((response) => {
       const userInfo = response.notification.request.content.data;
       ZendeskMessagingExpo.handleNotificationClick(userInfo);
@@ -48,7 +45,6 @@ export default function App() {
 
     Notifications.setNotificationHandler({
       handleNotification: async (notification) => {
-        // Here you can integrate your custom logic similar to showNotification from iOS
         const shouldDisplay = await handleZendeskNotification(notification);
 
         if (shouldDisplay) {
@@ -75,23 +71,24 @@ export default function App() {
           ? process.env.EXPO_ZENDESK_IOS_CHANNEL_KEY || "IOS_CHANNEL_KEY"
           : process.env.EXPO_ZENDESK_ANDROID_CHANNEL_KEY ||
             "ANDROID_CHANNEL_KEY";
+
       await ZendeskMessagingExpo.initialize({
         channelKey: zendeskChannelKey,
         skipOpenMessaging: false,
       });
-      console.log("Zendesk initialized");
+
       setAppStatus({
         isInitialized: true,
         statusMessage: "Zendesk initialized",
       });
+
       // fetch JWT from your backend - in production make sure you authenticate the user
       const zendeskJwtUrl =
         process.env.EXPO_ZENDESK_JWT_URL ||
         "https://EXAMPLE_BACKEND?email=test-user@example.com";
       const response = await fetch(zendeskJwtUrl);
       const jwt = await response.text();
-      const zendeskUser = await ZendeskMessagingExpo.loginUser(jwt);
-      console.log("Logged in Zendesk user", zendeskUser);
+      await ZendeskMessagingExpo.loginUser(jwt);
 
       ZendeskMessagingExpo.openMessagingView();
     } catch (e) {
@@ -102,6 +99,7 @@ export default function App() {
     }
   };
 
+  // reset of current zendesk instance, need to inialize it to work again
   const handleReset = () => {
     try {
       ZendeskMessagingExpo.reset();
@@ -117,6 +115,7 @@ export default function App() {
     }
   };
 
+  // to get push token, you need to grant permissions first
   async function requestNotificationPermissions() {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
@@ -144,15 +143,16 @@ export default function App() {
       .catch((err) => console.error("Error registering push token:", err));
   }
 
+  // logic for notification handled by Zendesk
   async function handleZendeskNotification(notification: any) {
     const userInfo = notification.request.content.data;
-    // Your custom logic for checking if the notification is handled by Zendesk
     const isHandledByZendesk = await ZendeskMessagingExpo.handleNotification(
       userInfo
     );
     return isHandledByZendesk;
   }
 
+  // logout and switch user implementation
   const handleLogout = () => {
     try {
       ZendeskMessagingExpo.logout();

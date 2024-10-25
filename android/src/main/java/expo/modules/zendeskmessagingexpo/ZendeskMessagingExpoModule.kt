@@ -41,23 +41,18 @@ class ZendeskMessagingExpoModule : Module() {
             val reactContext = appContext.reactContext!!
             val channelKey = config["channelKey"] as String
             try {
-                Zendesk.initialize(
-                    reactContext,
-                    channelKey,
-                    successCallback = { zendesk ->
-                        // If Zendesk initialization is successful, resolve the promise
-                        setupEventObserver()
-                        promise.resolve("Zendesk initialized successfully")
-                    },
-                    failureCallback = { error ->
-                        // If there is an error during initialization, reject the promise
-                        promise.reject(
-                            "ZendeskInitError",
-                            "Zendesk initialization failed: " + error.message,
-                            error
-                        )
-                    },
-                    messagingFactory = DefaultMessagingFactory()
+                Zendesk.initialize(reactContext, channelKey, successCallback = { zendesk ->
+                    // If Zendesk initialization is successful, resolve the promise
+                    setupEventObserver()
+                    promise.resolve("Zendesk initialized successfully")
+                }, failureCallback = { error ->
+                    // If there is an error during initialization, reject the promise
+                    promise.reject(
+                        "ZendeskInitError",
+                        "Zendesk initialization failed: " + error.message,
+                        error
+                    )
+                }, messagingFactory = DefaultMessagingFactory()
                 )
             } catch (e: Exception) {
                 // Catch any other unexpected exceptions and reject the promise
@@ -79,17 +74,14 @@ class ZendeskMessagingExpoModule : Module() {
 
             try {
                 Zendesk.instance.messaging.showMessaging(
-                    reactContext,
-                    Intent.FLAG_ACTIVITY_NEW_TASK
+                    reactContext, Intent.FLAG_ACTIVITY_NEW_TASK
                 )
                 // Resolve the promise once the messaging view is shown successfully
                 promise.resolve("Messaging view opened successfully")
             } catch (e: Exception) {
                 // Reject the promise if an error occurs
                 promise.reject(
-                    "OpenMessagingViewError",
-                    "Failed to open messaging view: " + e.message,
-                    e
+                    "OpenMessagingViewError", "Failed to open messaging view: " + e.message, e
                 )
             }
         }
@@ -97,24 +89,19 @@ class ZendeskMessagingExpoModule : Module() {
         AsyncFunction("loginUser") { jwt: String, promise: Promise ->
 
             try {
-                Zendesk.instance.loginUser(
-                    jwt,
-                    successCallback = { zendeskUser ->
+                Zendesk.instance.loginUser(jwt, successCallback = { zendeskUser ->
 
-                        val userMap = mapOf(
-                            "id" to zendeskUser.id,
-                            "externalId" to zendeskUser.externalId
-                        )
-                        promise.resolve(userMap)
-                    },
-                    failureCallback = { error ->
-                        promise.reject(
-                            "ZendeskInitError",
-                            "Zendesk initialization failed: " + error.message,
-                            error
-                        )
-                    }
-                )
+                    val userMap = mapOf(
+                        "id" to zendeskUser.id, "externalId" to zendeskUser.externalId
+                    )
+                    promise.resolve(userMap)
+                }, failureCallback = { error ->
+                    promise.reject(
+                        "ZendeskInitError",
+                        "Zendesk initialization failed: " + error.message,
+                        error
+                    )
+                })
             } catch (e: Exception) {
                 promise.reject("UnexpectedError", "An unexpected error occurred", e)
             }
@@ -123,14 +110,11 @@ class ZendeskMessagingExpoModule : Module() {
         AsyncFunction("logoutUser") { promise: Promise ->
             try {
                 // Call the logoutUser function from the Zendesk instance
-                Zendesk.instance?.logoutUser(
-                    successCallback = {
-                        promise.resolve(null) // Resolve the promise on success
-                    },
-                    failureCallback = { error ->
-                        promise.reject("LogoutError", "Logout failed: ${error.message}", error)
-                    }
-                )
+                Zendesk.instance?.logoutUser(successCallback = {
+                    promise.resolve(null) // Resolve the promise on success
+                }, failureCallback = { error ->
+                    promise.reject("LogoutError", "Logout failed: ${error.message}", error)
+                })
             } catch (e: Exception) {
                 promise.reject("UnexpectedError", "An unexpected error occurred", e)
             }
@@ -145,8 +129,8 @@ class ZendeskMessagingExpoModule : Module() {
                 handleZendeskNotification(
                     context = appContext.reactContext!!,
                     messageData = remoteMessage,
-                ) { responsibility -> 
-                promise.resolve(responsibility) 
+                ) { responsibility ->
+                    promise.resolve(responsibility)
                 }
             } catch (error: Exception) {
                 promise.reject("UnexpectedError", "An unexpected error occurred", error)
@@ -164,9 +148,8 @@ class ZendeskMessagingExpoModule : Module() {
                 throw error
             }
         }
-}
-
     }
+
 
     private fun setupEventObserver() {
         // Add the event listener for Zendesk events

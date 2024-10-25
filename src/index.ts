@@ -1,9 +1,6 @@
-// Import the native module. On web, it will be resolved to ZendeskMessagingExpo.web.ts
-// and on native platforms to ZendeskMessagingExpo.ts
-import { EventEmitter, Platform, Subscription } from 'expo-modules-core';
+import { EventEmitter, Platform } from 'expo-modules-core';
 import { ZendeskEvent, ZendeskEventType, ZendeskInitializeConfig, ZendeskUser, EmitterSubscription, ZendeskNotificationResponsibility } from "./ZendeskMessagingExpo.types";
 import ZendeskMessagingExpoModule from "./ZendeskMessagingExpoModule";
-
 
 /**
  * Initializing Zendesk SDK.
@@ -60,19 +57,15 @@ export async function openMessagingView(): Promise<void> {
   return ZendeskMessagingExpoModule.openMessagingView();
 }
 
-export async function setValueAsync(value: string) {
-  return await ZendeskMessagingExpoModule.setValueAsync(value);
-}
-
+/** Unread counter for current user */
 export function getUnreadMessageCount(): Promise<number> {
   return ZendeskMessagingExpoModule.getUnreadMessageCount();
 }
 
-const eventEmitter = new EventEmitter(ZendeskMessagingExpoModule);
-
 /**
  * Add a listener for listening emitted events by Zendesk SDK.
- */
+*/
+const eventEmitter = new EventEmitter(ZendeskMessagingExpoModule);
 export function addEventListener<EventType extends ZendeskEventType>(
   type: EventType,
   listener: (event: ZendeskEvent<EventType>) => void
@@ -95,26 +88,25 @@ export function removeAllListeners(type: ZendeskEventType): void {
 }
 
 /**
- * **Android Only** (no-op for other platform)
  *
- * Set push notification token(FCM).
+ * Set push notification token.
  *
+ * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/push_notifications/#step-6---add-the-zendesk-sdk-to-your-app}
  * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#updating-push-notification-tokens}
  */
 export async function updatePushNotificationToken(token: string): Promise<void> {
-  if (Platform.OS !== 'android') return ;
   return ZendeskMessagingExpoModule.updatePushNotificationToken(token);
 }
 
+/**  */
 export function handleNotificationClick(remoteMessage: Record<string, string>): void {
   if (Platform.OS === 'android') return;
   return ZendeskMessagingExpoModule.handleNotificationClick(remoteMessage);
 }
 
 /**
- * **Android Only** (no-op for other platform, always return `UNKNOWN`)
  *
- * Handle remote message that received from FCM(Firebase Cloud Messaging) and show notifications.
+ * Handle remote message and show notifications.
  * If remote message isn't Zendesk message, it does nothing.
  *
  * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#using-a-custom-implementation-of-firebasemessagingservice}
