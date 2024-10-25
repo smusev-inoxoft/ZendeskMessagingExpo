@@ -35,19 +35,6 @@ class ZendeskMessagingExpoModule : Module() {
             "conversationAdded",
         )
 
-        // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-        Constants(
-            "PI" to Math.PI
-        )
-
-
-        // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-        Function("hello") {
-
-
-            "Hello from zendesk android module! 👋"
-        }
-
         // Defines a JavaScript function that always returns a Promise and whose native code
         // is by default dispatched on the different thread than the JavaScript runtime runs on.
         AsyncFunction("initialize") { config: Map<String, String>, promise: Promise ->
@@ -236,7 +223,7 @@ class ZendeskMessagingExpoModule : Module() {
         }
     }
 
-    fun handleZendeskNotification(
+    private fun handleZendeskNotification(
         context: Context,
         messageData: Map<String, String>,
         callback: ((String) -> Unit)?,

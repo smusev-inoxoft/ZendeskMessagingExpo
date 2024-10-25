@@ -79,7 +79,7 @@ public class ZendeskMessagingExpoModule: Module {
     }
 
     AsyncFunction("loginUser") { (token: String, promise: Promise) in
-      do {
+       {
         // Call the loginUser method of the Zendesk SDK
         self.loginUser(token) { result in
           switch result {
