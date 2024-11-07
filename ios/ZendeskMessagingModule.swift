@@ -91,7 +91,7 @@ public class ZendeskMessagingModule: Module {
         case .success:
           promise.resolve()
         case .failure(let error):
-          promise.reject("ZendeskLogoutError", "Failed to log out")
+          promise.reject("ZendeskLogoutError", "Failed to log out: \(error.localizedDescription)")
         }
       }
     }
