@@ -27,7 +27,7 @@ class ZendeskMessagingModule : Module() {
 			"conversationAdded",
 		)
 
-		AsyncFunction("initialize") { config: Map<String, String>, promise: Promise ->
+		AsyncFunction("initialize") { config: Map<String, Any>, promise: Promise ->
 			val reactContext = appContext.reactContext!!
 			val channelKey = config["channelKey"] as String
 			Zendesk.initialize(
