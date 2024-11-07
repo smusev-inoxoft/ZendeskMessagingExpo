@@ -13,14 +13,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "expo.modules.zendeskmessagingexpo.example"
+      "bundleIdentifier": "expo.modules.zendeskmessaging.example"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "expo.modules.zendeskmessagingexpo.example",
+      "package": "expo.modules.zendeskmessaging.example",
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE"

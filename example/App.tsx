@@ -1,7 +1,7 @@
 import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
 import { Button, Platform, StyleSheet, Text, View } from "react-native";
-import * as ZendeskMessagingExpo from "zendesk-messaging-expo";
+import * as ZendeskMessaging from "zendesk-messaging-expo";
 
 export default function App() {
   const [isInitialized, setInitialized] = useState(false);
@@ -12,16 +12,16 @@ export default function App() {
     try {
       const zendeskChannelKey =
         Platform.OS === "ios"
-          ? process.env.EXPO_ZENDESK_IOS_CHANNEL_KEY
-          : process.env.EXPO_ZENDESK_ANDROID_CHANNEL_KEY;
+          ? process.env.EXPO_PUBLIC_ZENDESK_IOS_CHANNEL_KEY
+          : process.env.EXPO_PUBLIC_ZENDESK_ANDROID_CHANNEL_KEY;
 
       if (!zendeskChannelKey) {
         throw new Error(
-          "Missing channel key. Make sure to set it in .env file",
+          "Missing channel key. Make sure to set it in .env file"
         );
       }
 
-      await ZendeskMessagingExpo.initialize({
+      await ZendeskMessaging.initialize({
         channelKey: zendeskChannelKey,
         skipOpenMessaging: false,
       });
@@ -29,13 +29,7 @@ export default function App() {
       setInitialized(true);
       setStatusMessage("Zendesk initialized");
 
-      const jwt = process.env.EXPO_ZENDESK_JWT;
-      if (!jwt) {
-        throw new Error("Missing jwt. Make sure to set it in .env file");
-      }
-
-      await ZendeskMessagingExpo.loginUser(jwt);
-      ZendeskMessagingExpo.openMessagingView();
+      ZendeskMessaging.openMessagingView();
     } catch (error) {
       setInitialized(false);
       setStatusMessage(`Zendesk error:\n${error}`);
@@ -44,7 +38,7 @@ export default function App() {
 
   const handleOpenMessagingPress = async () => {
     try {
-      await ZendeskMessagingExpo.openMessagingView();
+      await ZendeskMessaging.openMessagingView();
     } catch (e) {
       setStatusMessage(`Zendesk error:\n${e}`);
     }
@@ -52,7 +46,7 @@ export default function App() {
 
   const handleLogoutPress = async () => {
     try {
-      await ZendeskMessagingExpo.logout();
+      await ZendeskMessaging.logout();
       setStatusMessage("User is logged out");
     } catch (e) {
       setStatusMessage(`Zendesk error:\n${e}`);
@@ -63,7 +57,7 @@ export default function App() {
 
   const handleResetPress = async () => {
     try {
-      await ZendeskMessagingExpo.reset();
+      await ZendeskMessaging.reset();
       setStatusMessage("Zendesk has been invalidated");
     } catch (error) {
       setStatusMessage(`Zendesk error:\n${error}`);
@@ -80,7 +74,7 @@ export default function App() {
       }
 
       const { data: pnsToken } = await Notifications.getDevicePushTokenAsync();
-      ZendeskMessagingExpo.updatePushNotificationToken(pnsToken);
+      ZendeskMessaging.updatePushNotificationToken(pnsToken);
     } catch (error) {
       setStatusMessage(`Push notifications error:\n${error}`);
     }
@@ -90,29 +84,29 @@ export default function App() {
     initializeZendesk();
     requestNotificationPermission();
 
-    ZendeskMessagingExpo.addEventListener(
+    ZendeskMessaging.addEventListener(
       "unreadMessageCountChanged",
-      ({ unreadCount }) => setUnreadCount(unreadCount),
+      ({ unreadCount }) => setUnreadCount(unreadCount)
     );
 
-    ZendeskMessagingExpo.addEventListener("authenticationFailed", () => {
+    ZendeskMessaging.addEventListener("authenticationFailed", () => {
       setInitialized(false);
       setStatusMessage("Authentication failed");
     });
 
-    ZendeskMessagingExpo.getUnreadMessageCount().then((unreadCount) =>
-      setUnreadCount(unreadCount),
+    ZendeskMessaging.getUnreadMessageCount().then((unreadCount) =>
+      setUnreadCount(unreadCount)
     );
 
     Notifications.addNotificationResponseReceivedListener((response) => {
       const remoteMessage = response.notification.request.content.data;
-      ZendeskMessagingExpo.handleNotificationClick(remoteMessage);
+      ZendeskMessaging.handleNotificationClick(remoteMessage);
     });
 
     Notifications.setNotificationHandler({
       handleNotification: async (notification) => {
-        const responsibility = await ZendeskMessagingExpo.handleNotification(
-          notification.request.content.data,
+        const responsibility = await ZendeskMessaging.handleNotification(
+          notification.request.content.data
         );
 
         const shouldDisplay = responsibility !== "MESSAGING_SHOULD_NOT_DISPLAY";

@@ -58,3 +58,4 @@ yarn-error.log
 example/ios
 example/android
 *google-services.json
+example/.env.local

@@ -1,4 +1,4 @@
-package expo.modules.zendeskmessagingexpo
+package expo.modules.zendeskmessaging
 
 import android.content.Context
 import android.content.Intent
@@ -13,10 +13,10 @@ import zendesk.messaging.android.DefaultMessagingFactory
 import zendesk.messaging.android.push.PushNotifications
 import zendesk.messaging.android.push.PushResponsibility
 
-class ZendeskMessagingExpoModule : Module() {
+class ZendeskMessagingModule : Module() {
 
 	override fun definition() = ModuleDefinition {
-		Name("ZendeskMessagingExpo")
+		Name("ZendeskMessaging")
 
 		Events(
 			"unreadMessageCountChanged",

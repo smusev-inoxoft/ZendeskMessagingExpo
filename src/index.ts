@@ -4,12 +4,12 @@ import {
   ZendeskEvent,
   ZendeskEventType,
   ZendeskInitializeConfig,
-  ZendeskUser,
   ZendeskNotificationResponsibility,
-} from "./ZendeskMessagingExpo.types";
-import ZendeskMessagingExpoModule from "./ZendeskMessagingExpoModule";
+  ZendeskUser,
+} from "./ZendeskMessaging.types";
+import ZendeskMessagingModule from "./ZendeskMessagingModule";
 
-const eventEmitter = new EventEmitter(ZendeskMessagingExpoModule);
+const eventEmitter = new EventEmitter(ZendeskMessagingModule);
 
 /**
  * Initializes Zendesk SDK.
@@ -20,7 +20,7 @@ const eventEmitter = new EventEmitter(ZendeskMessagingExpoModule);
  * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/getting_started/#initialize-the-sdk}
  */
 export function initialize(config: ZendeskInitializeConfig): Promise<void> {
-  return ZendeskMessagingExpoModule.initialize({
+  return ZendeskMessagingModule.initialize({
     skipOpenMessaging: false,
     ...config,
   });
@@ -32,7 +32,7 @@ export function initialize(config: ZendeskInitializeConfig): Promise<void> {
  * After calling this method you will have to call `initialize` again if you would like to use Zendesk.
  */
 export function reset(): Promise<void> {
-  return ZendeskMessagingExpoModule.reset();
+  return ZendeskMessagingModule.reset();
 }
 
 /**
@@ -46,7 +46,7 @@ export async function loginUser(jwtToken: string): Promise<ZendeskUser> {
     throw new Error("invalid token");
   }
 
-  return ZendeskMessagingExpoModule.loginUser(jwtToken);
+  return ZendeskMessagingModule.loginUser(jwtToken);
 }
 
 /**
@@ -56,7 +56,7 @@ export async function loginUser(jwtToken: string): Promise<ZendeskUser> {
  * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/advanced_integration/#logoutuser}
  */
 export function logout(): Promise<void> {
-  return ZendeskMessagingExpoModule.logoutUser();
+  return ZendeskMessagingModule.logoutUser();
 }
 
 /**
@@ -66,12 +66,12 @@ export function logout(): Promise<void> {
  * @see iOS {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/ios/getting_started/#show-the-conversation}
  */
 export async function openMessagingView(): Promise<void> {
-  return ZendeskMessagingExpoModule.openMessagingView();
+  return ZendeskMessagingModule.openMessagingView();
 }
 
 /** Unread counter for current user */
 export function getUnreadMessageCount(): Promise<number> {
-  return ZendeskMessagingExpoModule.getUnreadMessageCount();
+  return ZendeskMessagingModule.getUnreadMessageCount();
 }
 
 /**
@@ -79,7 +79,7 @@ export function getUnreadMessageCount(): Promise<number> {
  */
 export function addEventListener<EventType extends ZendeskEventType>(
   type: EventType,
-  listener: (event: ZendeskEvent<EventType>) => void,
+  listener: (event: ZendeskEvent<EventType>) => void
 ): Subscription {
   return eventEmitter.addListener(type, listener);
 }
@@ -105,9 +105,9 @@ export function removeAllListeners(type: ZendeskEventType): void {
  * @see Android {@link https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/android/push_notifications/#updating-push-notification-tokens}
  */
 export async function updatePushNotificationToken(
-  token: string,
+  token: string
 ): Promise<void> {
-  return ZendeskMessagingExpoModule.updatePushNotificationToken(token);
+  return ZendeskMessagingModule.updatePushNotificationToken(token);
 }
 
 /**
@@ -115,9 +115,9 @@ export async function updatePushNotificationToken(
  * If remote message isn't Zendesk message, it does nothing.
  */
 export function handleNotification(
-  remoteMessage: Record<string, string>,
+  remoteMessage: Record<string, string>
 ): Promise<ZendeskNotificationResponsibility> {
-  return ZendeskMessagingExpoModule.handleNotification(remoteMessage);
+  return ZendeskMessagingModule.handleNotification(remoteMessage);
 }
 
 /**
@@ -125,8 +125,8 @@ export function handleNotification(
  * Does nothing on Android.
  */
 export async function handleNotificationClick(
-  remoteMessage: Record<string, string>,
+  remoteMessage: Record<string, string>
 ): Promise<void> {
   if (Platform.OS === "android") return;
-  return ZendeskMessagingExpoModule.handleNotificationClick(remoteMessage);
+  return ZendeskMessagingModule.handleNotificationClick(remoteMessage);
 }

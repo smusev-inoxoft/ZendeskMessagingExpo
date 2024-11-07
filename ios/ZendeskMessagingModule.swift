@@ -2,12 +2,12 @@ import ExpoModulesCore
 import ZendeskSDK
 import ZendeskSDKMessaging
 
-public class ZendeskMessagingExpoModule: Module {
+public class ZendeskMessagingModule: Module {
   private var zendeskInstance: Zendesk?
   private var receivedUserInfo: [AnyHashable: Any]?
   
   public func definition() -> ModuleDefinition {
-    Name("ZendeskMessagingExpo")
+    Name("ZendeskMessaging")
     
     Events(
       "unreadMessageCountChanged", "authenticationFailed", "connectionStatusChanged",

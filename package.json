@@ -19,7 +19,7 @@
     "react-native",
     "expo",
     "zendesk-messaging-expo",
-    "ZendeskMessagingExpo"
+    "ZendeskMessaging"
   ],
   "repository": "https://github.com/deelo55/zendesk-messaging-expo",
   "bugs": {

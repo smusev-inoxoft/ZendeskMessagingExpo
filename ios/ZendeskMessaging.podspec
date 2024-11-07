@@ -4,7 +4,7 @@ package = JSON.parse(File.read(File.join(__dir__, '..', 'package.json')))
 sdk_version = package["sdkVersions"]["ios"]
 
 Pod::Spec.new do |s|
-  s.name           = 'ZendeskMessagingExpo'
+  s.name           = 'ZendeskMessaging'
   s.version        = package['version']
   s.summary        = package['description']
   s.description    = package['description']
