@@ -1,5 +1,5 @@
 {
-  "name": "@deelo55/zendesk-messaging-expo",
+  "name": "zendesk-messaging-expo",
   "version": "0.1.0",
   "description": "Zendesk SDK integration with Expo",
   "main": "build/index.js",
