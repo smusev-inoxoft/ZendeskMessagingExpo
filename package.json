@@ -21,13 +21,13 @@
     "zendesk-messaging-expo",
     "ZendeskMessaging"
   ],
-  "repository": "https://github.com/deelo55/zendesk-messaging-expo",
+  "repository": "https://github.com/deelo55/ZendeskMessagingExpo",
   "bugs": {
-    "url": "https://github.com/deelo55/zendesk-messaging-expo/issues"
+    "url": "https://github.com/deelo55/ZendeskMessagingExpo/issues"
   },
   "author": "Dwayne <dwayne.dsouza@gmail.com> (https://github.com/deelo55)",
   "license": "MIT",
-  "homepage": "https://github.com/deelo55/zendesk-messaging-expo#readme",
+  "homepage": "https://github.com/deelo55/ZendeskMessagingExpo#readme",
   "dependencies": {
     "expo-build-properties": "~0.12.5"
   },
