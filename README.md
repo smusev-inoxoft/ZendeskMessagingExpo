@@ -1,4 +1,4 @@
-# zendesk-messaging-expo
+# expo-zendesk-messaging
 
 Zendesk SDK integration with Expo
 
