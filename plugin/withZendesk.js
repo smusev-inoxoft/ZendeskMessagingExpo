@@ -9,7 +9,7 @@ const addMavenZendeskRepo = (config) => {
     if (config.modResults.language !== "groovy") {
       WarningAggregator.addWarningAndroid(
         "withProjectBuildGradle",
-        `Cannot automatically configure root build.gradle if it's not groovy`,
+        `Cannot automatically configure root build.gradle if it's not groovy`
       );
       return config;
     }
@@ -29,20 +29,20 @@ const addMavenZendeskRepo = (config) => {
     if (allProjectsIndex === -1) {
       WarningAggregator.addWarningAndroid(
         "withProjectBuildGradle",
-        `Cannot find allprojects section in root build.gradle`,
+        `Cannot find allprojects section in root build.gradle`
       );
       return config;
     }
 
     const repositoriesIndex = contents.indexOf(
       "repositories {",
-      allProjectsIndex,
+      allProjectsIndex
     );
 
     if (repositoriesIndex === -1) {
       WarningAggregator.addWarningAndroid(
         "withProjectBuildGradle",
-        `Cannot find repositories section in root build.gradle`,
+        `Cannot find repositories section in root build.gradle`
       );
       return config;
     }
@@ -60,7 +60,7 @@ const addMessagingDependency = (config) => {
     if (config.modResults.language !== "groovy") {
       WarningAggregator.addWarningAndroid(
         "withAppBuildGradle",
-        `Cannot automatically configure app/build.gradle if it's not groovy`,
+        `Cannot automatically configure app/build.gradle if it's not groovy`
       );
       return config;
     }
@@ -68,7 +68,7 @@ const addMessagingDependency = (config) => {
     const gradleBuild = config.modResults.contents;
     const dependencyName = "zendesk.messaging:messaging-android";
     const dependency = `
-    implementation "${dependencyName}:2.25.0"`;
+    implementation "${dependencyName}:2.26.0"`;
 
     if (gradleBuild.includes(dependency)) {
       return config;
@@ -78,7 +78,7 @@ const addMessagingDependency = (config) => {
     if (dependenciesIndex === -1) {
       WarningAggregator.addWarningAndroid(
         "withAppBuildGradle",
-        `Cannot find dependencies section in app/build.gradle`,
+        `Cannot find dependencies section in app/build.gradle`
       );
       return config;
     }

@@ -36,7 +36,7 @@ repositories {
 }
 
 dependencies{
-  implementation "zendesk.messaging:messaging-android:2.25.0"
+  implementation "zendesk.messaging:messaging-android:2.26.0"
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 }
 
