@@ -27,7 +27,7 @@ npm install expo-zendesk-messaging
 
 ## Usage
 
-[See example code](https://github.com/deelo55/ZendeskMessagingExpo/blob/main/example/App.tsxhttps:/)
+[See example code](https://github.com/deelo55/ZendeskMessagingExpo/blob/main/example/App.tsx)
 
 ## License
 
