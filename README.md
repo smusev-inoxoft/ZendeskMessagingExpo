@@ -10,13 +10,14 @@
 
 ## Features
 
-- 🔥 Zendesk Expo module
-- 🗣️ Basic conversation features
-- 🔔 Push Notifications (no native code needed!)
-- ✅ Support SDK events
-- 🔑 JWT Authentication
-- 🚗 Visitor Path
-- 📝 Conversation Metadata(fields and tags)
+	•	🌟 Expo integration for Zendesk
+	•	🚀 Supports the latest Zendesk SDK release (v2.26.0)
+	•	🛠️ Key conversation functionalities
+	•	✉️ Push notifications (no native code!)
+	•	🔍 Track SDK events seamlessly
+	•	🔒 Secure authentication with JWT
+	•	📍 Visitor journey tracking
+	•	🏷️ Customizable conversation metadata (fields & tags)
 
 ## Installation
 
