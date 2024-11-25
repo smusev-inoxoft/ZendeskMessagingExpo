@@ -10,7 +10,7 @@
 
 ## Features
 
-	•	🌟 Expo integration for Zendesk
+	•	🌟 Expo integration for Zendesk Messaing SDK
 	•	🚀 Supports the latest Zendesk SDK release (v2.26.0)
 	•	🛠️ Key conversation functionalities
 	•	✉️ Push notifications (no native code!)
