@@ -1,6 +1,6 @@
 {
   "name": "expo-zendesk-messaging",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Zendesk SDK integration with Expo",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -21,13 +21,10 @@
     "expo-zendesk-messaging",
     "ZendeskMessaging"
   ],
-  "repository": "https://github.com/deelo55/ZendeskMessagingExpo",
-  "bugs": {
-    "url": "https://github.com/deelo55/ZendeskMessagingExpo/issues"
-  },
+  "repository": "https://github.com/deelo55/expo-zendesk-messaging",
   "author": "Dwayne <dwayne.dsouza@gmail.com> (https://github.com/deelo55)",
   "license": "MIT",
-  "homepage": "https://github.com/deelo55/ZendeskMessagingExpo#readme",
+  "homepage": "https://github.com/deelo55/expo-zendesk-messaging#readme",
   "dependencies": {
     "expo-build-properties": "~0.12.5"
   },
