@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "zendesk-messaging-expo",
-    "slug": "zendesk-messaging-expo",
+    "name": "expo-zendesk-messaging",
+    "slug": "expo-zendesk-messaging",
     "version": "0.1.0",
     "description": "Zendesk SDK integration with Expo",
     "sdkVersion": "51.0.0",

@@ -1,7 +1,7 @@
 import * as Notifications from "expo-notifications";
+import * as ZendeskMessaging from "expo-zendesk-messaging";
 import { useEffect, useState } from "react";
 import { Button, Platform, StyleSheet, Text, View } from "react-native";
-import * as ZendeskMessaging from "zendesk-messaging-expo";
 
 export default function App() {
   const [isInitialized, setInitialized] = useState(false);

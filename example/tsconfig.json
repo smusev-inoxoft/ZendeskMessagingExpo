@@ -3,8 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "zendesk-messaging-expo": ["../src/index"],
-      "zendesk-messaging-expo/*": ["../src/*"]
+      "expo-zendesk-messaging": ["../src/index"],
+      "expo-zendesk-messaging/*": ["../src/*"]
     }
   }
 }

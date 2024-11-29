@@ -1,6 +1,6 @@
 {
   "name": "expo-zendesk-messaging",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Zendesk SDK integration with Expo",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -18,7 +18,7 @@
   "keywords": [
     "react-native",
     "expo",
-    "zendesk-messaging-expo",
+    "expo-zendesk-messaging",
     "ZendeskMessaging"
   ],
   "repository": "https://github.com/deelo55/ZendeskMessagingExpo",

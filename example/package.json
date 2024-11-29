@@ -1,5 +1,5 @@
 {
-  "name": "zendesk-messaging-expo-example",
+  "name": "expo-zendesk-messaging-example",
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {

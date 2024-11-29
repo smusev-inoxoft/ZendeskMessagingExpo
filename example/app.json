@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "zendesk-messaging-expo-example",
-    "slug": "zendesk-messaging-expo-example",
+    "name": "expo-zendesk-messaging-example",
+    "slug": "expo-zendesk-messaging-example",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
