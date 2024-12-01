@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "name": "expo-zendesk-messaging-example",
     "slug": "expo-zendesk-messaging-example",
     "version": "1.0.0",
